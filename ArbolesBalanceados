@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+ 
+typedef struct ns
+{
+	int dato;
+	struct ns *izq;
+	struct ns *der;
+}nodo;
+ 
+ 
+void pedirdato(int *dato)
+{
+	printf("Ingresar dato:");
+	scanf("%d",&*dato);
+}
+ 
+ 
+void crearnodo(nodo **q,int d)
+{
+	*q=(nodo*)malloc(sizeof(nodo));
+	(*q)->dato=d;
+	(*q)->izq=NULL;
+	(*q)->der=NULL;
+}
+ 
+void insertarnodo(nodo **r)
+{
+	nodo *t1,*t2,*t;
+	int resp =1, d;
+	if (*r==NULL)
+	{
+		pedirdato(&d);
+		crearnodo(&*r,d);
+	}
+	else
+	{
+		 
+		while (resp)
+		{
+			pedirdato(&d);
+			t1=t2=*r;
+			while (t1!=NULL)
+			{
+				t2 = t1;
+				if (d < t2->dato)
+					t1 = t2->izq;
+				else
+					t1 = t2->der;
+			}
+			crearnodo(&t,d);
+			if(d < t2->dato)
+				t2 -> izq = t;
+			else
+				t2 -> der = t;
+			printf("Hay mas datos 1 seguir 0 parar ");
+			scanf("%d",&resp);
+		}
+	}
+}
+ 
+void imprimir(nodo *r)
+{
+	if (r!=NULL)
+	{
+		imprimir(r->izq);
+		printf("%d\n",r->dato);
+		imprimir(r->der);
+	}
+	 
+}
+void preOrden( nodo*r )
+{ 
+	 
+	/* si el ÃƒÂ¡rbol no esta vacÃƒÂ­o, entonces recÃƒÂ³rrelo */
+	if ( r != NULL ) { 
+		printf( "%d ", r->dato );
+		preOrden( r->izq );
+		preOrden( r->der );
+	} /* fin de if */
+	 
+} 
+ 
+int main()
+{
+	nodo *r=NULL;
+	insertarnodo(&r);
+	insertarnodo(&r);
+	imprimir(r);
+	printf("\n------------------------------------\n");
+	preOrden(r);
+}
